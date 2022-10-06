@@ -8,6 +8,10 @@ inputs:
   key:
     description: 'An explicit key for restoring and saving the cache'
     required: true
+  upload-cache:
+    description: 'Condition to run post-action'
+    required: true
+    default: 'on-success'
   restore-keys:
     description: 'An ordered list of keys to use for restoring stale cache if no cache hit occurred for key. Note `cache-hit` returns false in this case.'
     required: false
@@ -21,7 +25,7 @@ runs:
   using: 'node16'
   main: 'dist/restore/index.js'
   post: 'dist/save/index.js'
-  post-if: 'success()'
+  post-if: '${{ inputs.upload-cache == 'always' }} || ${{ success() && inputs.post-action == 'on-success' }}
 branding:
   icon: 'archive'
   color: 'gray-dark'
