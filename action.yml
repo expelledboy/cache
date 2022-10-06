@@ -25,7 +25,7 @@ runs:
   using: 'node16'
   main: 'dist/restore/index.js'
   post: 'dist/save/index.js'
-  post-if: '${{ inputs.upload-cache == 'always' }} || ${{ success() && inputs.post-action == 'on-success' }}
+  post-if: '${{ ( inputs.upload-cache == 'always' || success() && inputs.upload-cache == 'on-success' }} ) && inputs.upload-cache != 'never' }}'
 branding:
   icon: 'archive'
   color: 'gray-dark'
